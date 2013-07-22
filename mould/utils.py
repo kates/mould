@@ -12,11 +12,13 @@ def mkdir_p(*path):
         else:
             raise
 
+
 def touch(*path):
     """emulate unix `touch` command"""
     name = os.path.sep.join(path)
     with file(name, 'a'):
         os.utime(name, None)
+
 
 def blueprint_template(name, templates):
     """create the basic blueprint"""
@@ -36,7 +38,9 @@ def blueprint_template(name, templates):
         with open(output_path, "w") as writer:
             writer.write(reader.read())
 
+
 def replace_alembic_env():
     with open(os.path.sep.join([os.path.dirname(__file__), 'alembic_env.tpl']), 'r') as reader:
         with open(os.path.sep.join(['alembic', 'env.py']), 'w') as writer:
             writer.write(reader.read())
+

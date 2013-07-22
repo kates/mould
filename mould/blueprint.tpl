@@ -4,8 +4,6 @@ from flask import abort
 from flask import request
 from flask import redirect
 
-from models import db
-
 view = Blueprint("{{ name }}", __name__, template_folder="{{ templates }}")
 
 @view.route("/")

@@ -5,12 +5,8 @@ import errno
 from flask import Flask
 from flask.ext.script import Manager, Shell
 
-#from alembic import command
-#from alembic.config import Config
-
 import config
 from mould.app import create_app
-from models import db
 from mould.gunicorn_app import GunicornApp
 from mould.utils import touch
 from mould.utils import blueprint_template
@@ -38,11 +34,13 @@ def test():
                 .discover("tests", pattern="*_test.py")
     unittest.TextTestRunner(verbosity=config.TEST_VERBOSITY).run(suite)
 
+
 @manager.command
 def alembic():
     """Initialize alembic"""
     migration = Migration(app)
     migration.init()
+
 
 @manager.command
 def migrate(direction):
@@ -50,11 +48,13 @@ def migrate(direction):
     migration = Migration(app)
     migration.migrate(direction)
 
+
 @manager.command
 def migration(message):
     """Create migration file"""
     migration = Migration(app)
     migration.migration(message)
+
 
 @manager.command
 def blueprint(name, path=None, templates=None):
@@ -63,7 +63,8 @@ def blueprint(name, path=None, templates=None):
     path = path or name
     blueprint_template(name, templates)
 
+
 @manager.shell
 def make_shell_context():
-    return dict(app=app, db=db)
+    return dict(app=app)
 
